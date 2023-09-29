@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import Searchbar from "./Searchbar";
-import SearchInfo from "./SearchInfo";
+import Searchbar from "./Searchbar/Searchbar";
 
+import css from './App.module.css'
+import ImageGallery from "./ImageGallery/ImageGallery";
 
 export default class App extends Component {
 
@@ -25,15 +26,13 @@ export default class App extends Component {
   }
   render() {
     return (
-      <div>
+      <div className={css.App}>
         <Searchbar onSubmit={this.handleSerchbarFormSubmit} />
-        <SearchInfo catName={this.state.catName} />
-        {/* {this.state.loading && <h1>Загружаем...</h1>}
-        {this.state.cat && <div>{this.state.cat.total}</div>} */}
+        <ImageGallery catName={this.state.catName} />
       </div>
     )
 
 
   }
-};
+}
 
