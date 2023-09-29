@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import Searchbar from "./Searchbar/Searchbar";
+import Searchbar from "./Searchbar";
+import SearchInfo from "./SearchInfo";
 
 
 export default class App extends Component {
@@ -25,9 +26,10 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Searchbar onSubmit={this.handleSerchbarFormSubmit } />
-        {this.state.loading && <h1>Загружаем...</h1>}
-        {this.state.cat && <div>{this.state.cat.total}</div>}
+        <Searchbar onSubmit={this.handleSerchbarFormSubmit} />
+        <SearchInfo catName={this.state.catName} />
+        {/* {this.state.loading && <h1>Загружаем...</h1>}
+        {this.state.cat && <div>{this.state.cat.total}</div>} */}
       </div>
     )
 
