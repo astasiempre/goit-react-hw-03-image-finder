@@ -3,21 +3,21 @@ import css from './Searchbar.module.css'
 
 export default class Searchbar extends Component {
   state = {
-    catName: '',
+    searchName: '',
   };
 
   handleNameChange = event => {
-    this.setState({ catName: event.currentTarget.value.toLowerCase() });
+    this.setState({ searchName: event.currentTarget.value.toLowerCase() });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-      if (this.state.catName.trim() === '') {
-          alert('Введите имя кота')
+      if (this.state.searchName.trim() === '') {
+          alert('Введите название')
           return;
 }
-    this.props.onSubmit(this.state.catName);
-    this.setState({ catName: '' });
+    this.props.onSubmit(this.state.searchName);
+    this.setState({ searchName: '' });
   };
 
   render() {
@@ -32,7 +32,7 @@ export default class Searchbar extends Component {
             className={css.SearchFormInput}
             name="catName"
             type="text"
-            value={this.state.catName}
+            value={this.state.searchName}
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
