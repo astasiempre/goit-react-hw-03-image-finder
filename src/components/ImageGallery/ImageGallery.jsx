@@ -86,7 +86,8 @@ import { ImageGalleryItem } from './ImageGalleryItem';
 import css from './ImageGallery.module.css';
 import { fetchSerchImages } from 'services/api';
 import { ColorRing } from 'react-loader-spinner';
-import Modal from 'components/Modal/Modal';
+import CustomModal from 'components/Modal/Modal';
+
 
 export default class ImageGallery extends Component {
   state = {
@@ -99,6 +100,7 @@ export default class ImageGallery extends Component {
       isOpen: false,
       data: null,
     }
+    
   };
 
  componentDidUpdate(prevProps, prevState) {
@@ -157,15 +159,16 @@ console.log(requestImages)
     });
   };
 
- 
+ onCloseModal = () => {
+    this.setState({
+      modal: {
+        isOpen: false,
+        data: null,
+      },
+    });
+  };
 
 
-  // onCloseModal = () => {
-  //   this.setState({
-  //     modal: false,
-  //     data: null,
-  //   })
-  // }
   
       
       
@@ -202,7 +205,7 @@ console.log(requestImages)
           <button onClick={this.loadMoreImages}>Load more</button>
         
                 )}
-             {this.state.modal.isOpen && <Modal data={this.state.modal.data} />}
+             {this.state.modal.isOpen && <CustomModal data={this.state.modal.data} onClose={this.onCloseModal} />}
           </>
         )}
       </>
