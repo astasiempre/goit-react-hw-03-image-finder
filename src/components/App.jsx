@@ -12,7 +12,7 @@ export default class App extends Component {
     
 }
   
-  
+      
  
   handleSerchbarFormSubmit = searchName => {
     this.setState({ searchName });
@@ -21,7 +21,7 @@ export default class App extends Component {
     return (
       <div className={css.App}>
         <Searchbar onSubmit={this.handleSerchbarFormSubmit} />
-        <ImageGallery onModal={this.onOpenModal} searchName={this.state.searchName} />
+        <ImageGallery  searchName={this.state.searchName} />
        
       </div>
     )

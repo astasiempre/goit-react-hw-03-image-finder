@@ -148,19 +148,24 @@ console.log(requestImages)
     this.setState(( prevState ) => ({ page: prevState.page + 1 }));
   };
 
-   onOpenModal = (modalData) => {
+  onOpenModal = (modalData) => {
     this.setState({
-      modal: true,
-      data: modalData,
-    })
-  }
+      modal: {
+        isOpen: true,
+        data: modalData,
+      },
+    });
+  };
 
-  onCloseModal = () => {
-    this.setState({
-      modal: false,
-      data: null,
-    })
-  }
+ 
+
+
+  // onCloseModal = () => {
+  //   this.setState({
+  //     modal: false,
+  //     data: null,
+  //   })
+  // }
   
       
       
