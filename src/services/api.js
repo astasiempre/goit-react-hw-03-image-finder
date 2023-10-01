@@ -13,6 +13,9 @@ export const fetchSerchImages = async (searchName, page = 1, per_page = 12) => {
       per_page,
     },
  });
-    return data;
+    
+   
+   return data;
+   
 };
 

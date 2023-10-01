@@ -86,6 +86,7 @@ import { ImageGalleryItem } from './ImageGalleryItem';
 import css from './ImageGallery.module.css';
 import { fetchSerchImages } from 'services/api';
 import { ColorRing } from 'react-loader-spinner';
+import Modal from 'components/Modal/Modal';
 
 export default class ImageGallery extends Component {
   state = {
@@ -94,12 +95,15 @@ export default class ImageGallery extends Component {
     error: null,
     page: 1,
     per_page: 12,
+    modal: {
+      isOpen: false,
+      data: null,
+    }
   };
 
  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchName !== this.props.searchName) {
-      // this.setState({ loading: true });
-      this.setState({page:1,  images: [] });
+      if (prevProps.searchName !== this.props.searchName) {
+      this.setState({ page: 1, images: [], error: null  });
     }
     if (prevProps.searchName !== this.props.searchName || this.state.page !== prevState.page)
     {
@@ -116,25 +120,48 @@ const { searchName } = this.props;
     const { page, per_page } = this.state;
       const requestImages = await fetchSerchImages(searchName, page, per_page);
 console.log(requestImages)
-//       
+      //
+
+      
+      
  this.setState(({ images: prevData }) => ({
    images: [...prevData, ...requestImages.hits],
   
  }));
-    
+      if (requestImages.total === 0) {
+       throw new Error('No images matching your request')
+        
+      }
 
     } catch (error) {
+      
       this.setState({ error: error.message });
     } finally {
       this.setState({ loading: false });
     }
   };
 
+
  
 
    loadMoreImages = () => {
     this.setState(( prevState ) => ({ page: prevState.page + 1 }));
   };
+
+   onOpenModal = (modalData) => {
+    this.setState({
+      modal: true,
+      data: modalData,
+    })
+  }
+
+  onCloseModal = () => {
+    this.setState({
+      modal: false,
+      data: null,
+    })
+  }
+  
       
       
       render() {
@@ -142,8 +169,8 @@ console.log(requestImages)
         return (
       
           <>
-            {this.state.error && <h1>{this.state.error.message}</h1>}
-        {this.state.error && <h1>{this.state.error.message}</h1>}
+            {this.state.error && <h1>{this.state.error}</h1>}
+        {/* {this.state.error && <h1>{this.state.error.message}</h1>} */}
         {this.state.loading && (
             <div>
               <ColorRing
@@ -162,14 +189,15 @@ console.log(requestImages)
             <ul className={css.ImageGallery}>
               {this.state.images.map(
                 ({ id, webformatURL, largeImageURL, user }) => (
-                  <ImageGalleryItem key={id} url={webformatURL} user={user} />
+                  <ImageGalleryItem onOpenModal={this.onOpenModal} key={id} url={webformatURL} largeUrl={largeImageURL} user={user} />
                 )
               )}
                 </ul>
                 { this.state.images.length > 0  && (
           <button onClick={this.loadMoreImages}>Load more</button>
-        )}
-            
+        
+                )}
+             {this.state.modal.isOpen && <Modal data={this.state.modal.data} />}
           </>
         )}
       </>
