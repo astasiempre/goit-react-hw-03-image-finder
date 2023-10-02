@@ -8,12 +8,12 @@ export const fetchSerchImages = async (searchName, page = 1, per_page = 12) => {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      page,
+     page,
       q: searchName,
       per_page,
     },
  });
-    
+  console.log(data)
    
    return data;
    
