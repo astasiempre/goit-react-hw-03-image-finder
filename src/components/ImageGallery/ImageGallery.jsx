@@ -11,6 +11,7 @@ export default class ImageGallery extends Component {
   state = {
     images: [],
     loading: false,
+    totalHits: 1,
     error: null,
     page: 1,
     per_page: 12,
@@ -18,6 +19,7 @@ export default class ImageGallery extends Component {
       isOpen: false,
       data: null,
     },
+    
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,12 +38,15 @@ export default class ImageGallery extends Component {
     try {
       this.setState({ loading: true });
       const { searchName } = this.props;
-      const { page, per_page } = this.state;
+      const { page, per_page,  } = this.state;
       const requestImages = await fetchSerchImages(searchName, page, per_page);
-
-      this.setState(({ images: prevData }) => ({
+console.log(requestImages.totalHits)
+      this.setState(({ images: prevData, totalHits}) => ({
         images: [...prevData, ...requestImages.hits],
+        totalHits: requestImages.totalHits
       }));
+     
+      console.log(this.state.totalHits)
       if (requestImages.total === 0) {
         throw new Error('No images matching your request');
       }
@@ -51,7 +56,7 @@ export default class ImageGallery extends Component {
       this.setState({ loading: false });
     }
   };
-
+ 
   loadMoreImages = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
@@ -96,7 +101,7 @@ export default class ImageGallery extends Component {
               )}
             </ul>
             {this.state.images.length > 0 &&
-              this.state.page < Math.ceil(500 / 12) && (
+              this.state.page < Math.ceil(this.state.totalHits / 12) && (
                 <Button onClick={this.loadMoreImages} />
               )}
             {this.state.modal.isOpen && (
